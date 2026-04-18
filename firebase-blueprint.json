@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "QuizSubmission": {
+      "title": "Quiz Submission",
+      "description": "A record of a user's quiz attempt.",
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "The name provided by the user."
+        },
+        "score": {
+          "type": "number",
+          "description": "The final score achieved."
+        },
+        "totalQuestions": {
+          "type": "number",
+          "description": "The total number of questions in the quiz."
+        },
+        "answers": {
+          "type": "array",
+          "description": "The detailed answers submitted by the user.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "questionId": { "type": "number" },
+              "userAnswer": { "type": "string" },
+              "isCorrect": { "type": "boolean" }
+            }
+          }
+        },
+        "submittedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time the quiz was completed."
+        }
+      },
+      "required": ["userName", "score", "totalQuestions", "answers", "submittedAt"]
+    }
+  },
+  "firestore": {
+    "/submissions/{submissionId}": {
+      "schema": "QuizSubmission",
+      "description": "Collection of quiz results submitted by users."
+    }
+  }
+}
