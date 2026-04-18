@@ -69,14 +69,14 @@ interface OptionBtnProps {
 
 function OptionBtn({ option, idx, selectedAnswer, correctAnswer, disabled, onClick }: OptionBtnProps) {
   const isSelected = selectedAnswer === option;
-  const isCorrect  = option === correctAnswer;
+  const isCorrect = option === correctAnswer;
   const showResult = disabled && selectedAnswer !== null;
 
   let cls = 'option-btn';
   if (showResult) {
-    if (isSelected && isCorrect)  cls += ' correct';
-    else if (isSelected)          cls += ' incorrect';
-    else if (isCorrect)           cls += ' reveal-correct';
+    if (isSelected && isCorrect) cls += ' correct';
+    else if (isSelected) cls += ' incorrect';
+    else if (isCorrect) cls += ' reveal-correct';
   }
 
   return (
@@ -89,20 +89,20 @@ function OptionBtn({ option, idx, selectedAnswer, correctAnswer, disabled, onCli
 
 /* ─── App ─────────────────────────────────────────── */
 export default function App() {
-  const [state, setState]               = useState<QuizState>('ENTRY');
-  const [name, setName]                 = useState('');
-  const [qIndex, setQIndex]             = useState(0);
-  const [answers, setAnswers]           = useState<AnswerRecord[]>([]);
-  const [selectedAnswer, setSelected]   = useState<string | null>(null);
-  const [results, setResults]           = useState<QuizResult | null>(null);
-  const [timeLeft, setTimeLeft]         = useState(QUIZ_CONFIG.secondsPerQuestion);
-  const [animKey, setAnimKey]           = useState(0);
-  const [startTime, setStartTime]       = useState(0);
+  const [state, setState] = useState<QuizState>('ENTRY');
+  const [name, setName] = useState('');
+  const [qIndex, setQIndex] = useState(0);
+  const [answers, setAnswers] = useState<AnswerRecord[]>([]);
+  const [selectedAnswer, setSelected] = useState<string | null>(null);
+  const [results, setResults] = useState<QuizResult | null>(null);
+  const [timeLeft, setTimeLeft] = useState(QUIZ_CONFIG.secondsPerQuestion);
+  const [animKey, setAnimKey] = useState(0);
+  const [startTime, setStartTime] = useState(0);
 
-  const timerRef   = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentQ: Question = QUESTIONS[qIndex];
-  const totalQuestions     = QUESTIONS.length;
-  const progress           = (qIndex / totalQuestions) * 100;
+  const totalQuestions = QUESTIONS.length;
+  const progress = (qIndex / totalQuestions) * 100;
 
   /* timer helpers */
   const clearTimer = useCallback(() => {
@@ -160,8 +160,8 @@ export default function App() {
     } else {
       // build final results from state snapshot
       setAnswers(prev => {
-        const score      = prev.filter(a => a.isCorrect).length;
-        const timeTaken  = Math.round((Date.now() - startTime) / 1000);
+        const score = prev.filter(a => a.isCorrect).length;
+        const timeTaken = Math.round((Date.now() - startTime) / 1000);
         const finalRes: QuizResult = {
           userName: name, score, totalQuestions, answers: prev, timeTaken
         };
@@ -197,7 +197,7 @@ export default function App() {
               </span>
             </div>
 
-            <div style={{ display:'flex', flexDirection:'column', gap:'1rem', alignItems:'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
               <h1 className="entry-title">
                 Historical &amp; <br />
                 <span>Social Science</span>
@@ -264,7 +264,7 @@ export default function App() {
             {/* question body */}
             <div
               className="anim-slide-r"
-              style={{ flex:1, display:'flex', flexDirection:'column', gap:'1.75rem', justifyContent:'center' }}
+              style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1.75rem', justifyContent: 'center' }}
             >
               <div>
                 <div className="category-tag">{currentQ.category}</div>
@@ -313,23 +313,23 @@ export default function App() {
 
         {/* ── ANSWER FEEDBACK ── */}
         {state === 'ANSWER_FEEDBACK' && (() => {
-          const last      = answers[answers.length - 1];
+          const last = answers[answers.length - 1];
           const isCorrect = last?.isCorrect;
-          const timedOut  = last?.userAnswer === '(Timed Out)';
+          const timedOut = last?.userAnswer === '(Timed Out)';
           return (
             <div className="feedback-screen" key="feedback">
               <div className={`feedback-icon anim-pop-in ${isCorrect ? 'correct-icon' : 'incorrect-icon'}`}>
                 {isCorrect ? <CheckCircle2 size={40} /> : <XCircle size={40} />}
               </div>
 
-              <div className="anim-fade-up delay-1" style={{ display:'flex', flexDirection:'column', gap:'0.4rem', alignItems:'center' }}>
+              <div className="anim-fade-up delay-1" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', alignItems: 'center' }}>
                 <p className="feedback-title" style={{ color: isCorrect ? 'var(--green)' : 'var(--rose)' }}>
                   {timedOut ? "Time's Up!" : isCorrect ? 'Correct!' : 'Incorrect'}
                 </p>
                 {!isCorrect && (
-                  <p style={{ fontSize:'0.9rem', color:'var(--text-muted)' }}>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
                     Correct answer:{' '}
-                    <strong style={{ color:'var(--accent)' }}>{currentQ.correctAnswer}</strong>
+                    <strong style={{ color: 'var(--accent)' }}>{currentQ.correctAnswer}</strong>
                   </p>
                 )}
               </div>
@@ -348,7 +348,7 @@ export default function App() {
                 }
               </button>
 
-              <p style={{ fontSize:'0.72rem', color:'var(--text-faint)' }}>
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-faint)' }}>
                 Question {qIndex + 1} of {totalQuestions}
               </p>
             </div>
@@ -366,7 +366,7 @@ export default function App() {
                   <Trophy size={34} />
                 </div>
 
-                <div style={{ display:'flex', flexDirection:'column', gap:'0.4rem', alignItems:'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', alignItems: 'center' }}>
                   <div className="score-display">
                     <span className="score-number">{results.score}</span>
                     <span className="score-denom">/{results.totalQuestions}</span>
@@ -393,19 +393,19 @@ export default function App() {
               {/* Review panel */}
               <div className="review-panel">
                 <p className="review-label">
-                  <BarChart3 size={12} style={{ display:'inline', marginRight:'0.4rem' }} />
+                  <BarChart3 size={12} style={{ display: 'inline', marginRight: '0.4rem' }} />
                   Performance Review
                 </p>
                 <div className="review-list">
                   {QUESTIONS.map((q, idx) => {
-                    const rec     = results.answers.find(a => a.questionId === q.id);
+                    const rec = results.answers.find(a => a.questionId === q.id);
                     const correct = rec?.isCorrect ?? false;
                     const userAns = rec?.userAnswer ?? '—';
                     return (
                       <div key={q.id} className="review-item">
                         {correct
-                          ? <CheckCircle2 className="review-icon ok"  size={20} />
-                          : <XCircle      className="review-icon bad" size={20} />
+                          ? <CheckCircle2 className="review-icon ok" size={20} />
+                          : <XCircle className="review-icon bad" size={20} />
                         }
                         <div>
                           <p className="review-q">{idx + 1}. {q.text}</p>
@@ -437,7 +437,7 @@ export default function App() {
                 </div>
               </div>
               <div className="rf-right">
-                <div className="rf-item" style={{ textAlign:'right' }}>
+                <div className="rf-item" style={{ textAlign: 'right' }}>
                   <span className="rf-label">Assessment</span>
                   <span className="rf-value">{QUIZ_CONFIG.version}</span>
                 </div>
